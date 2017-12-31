@@ -10,7 +10,7 @@
     End Sub
       Private Sub Form1_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
       'هنا يتم رسم الجرافكس
-        Background(51)  هذا كود يغير لود الخلفية
+        Background(51)  هذا كود يغير لون الخلفية
         
     End Sub
 ```
