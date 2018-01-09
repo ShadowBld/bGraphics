@@ -1,4 +1,4 @@
-﻿'Author : Ali Hussian (AKA Abo Mahdi)
+'Author : Ali Hussian (AKA Abo Mahdi)
 'intial starting date : around october 2017
 'there is alot to do here.. hehe....
 Option Strict Off
@@ -26,6 +26,7 @@ Public Module bGraphics
     Private mV As Integer
     Private r As New Random
     Private formRec As Rectangle
+    Private mouseIsClicked As Boolean = False
     Private messurmentMode As String = DEGREES
     Public Const PI As Integer = 180
     Public Const TWO_PI As Integer = 360
@@ -36,7 +37,13 @@ Public Module bGraphics
     Public Const RADIANIS As String = "r"
     Public Const infinity As UInt32 = UInt32.MaxValue
 
-  
+
+#Region "propeties"
+    Public ReadOnly Property isMousePressed
+        Get
+            Return mouseIsClicked
+        End Get
+    End Property
     Public ReadOnly Property centerWidth
         Get
             Return hostForm.Width / 2
@@ -57,6 +64,64 @@ Public Module bGraphics
             Return mV - yOff
         End Get
     End Property
+    Public ReadOnly Property GREEN
+        Get
+            Return Color.Lime
+        End Get
+    End Property
+    Public ReadOnly Property RED
+        Get
+            Return Color.Red
+        End Get
+    End Property
+    Public ReadOnly Property YELLOW
+        Get
+            Return Color.Yellow
+        End Get
+    End Property
+    Public ReadOnly Property PURPLE
+        Get
+            Return Color.Purple
+        End Get
+    End Property
+    Public ReadOnly Property ORANGE
+        Get
+            Return Color.Orange
+        End Get
+    End Property
+    Public ReadOnly Property PINK
+        Get
+            Return Color.Pink
+        End Get
+    End Property
+    Public ReadOnly Property BLUE
+        Get
+            Return Color.Aqua
+        End Get
+    End Property
+    Public ReadOnly Property BROWN
+        Get
+            Return Color.Brown
+        End Get
+    End Property
+    Public ReadOnly Property WHITE
+        Get
+            Return Color.White
+        End Get
+    End Property
+    Public ReadOnly Property BLACK
+        Get
+            Return Color.Black
+        End Get
+    End Property
+    Public ReadOnly Property GREY
+        Get
+            Return Color.Gray
+        End Get
+    End Property
+
+#End Region
+
 
     Public Class bVector
         Public x As Double
@@ -184,6 +249,25 @@ Public Module bGraphics
         End If
         Return Math.Tan(val)
     End Function
+    Public Function asin(ByVal val As Double)
+        If messurmentMode = DEGREES Then
+            Return Math.Asin(DegreeToRadian(val))
+        End If
+        Return Math.Asin(val)
+    End Function
+    Public Function acos(ByVal val As Double)
+        If messurmentMode = DEGREES Then
+            Return Math.Acos(DegreeToRadian(val))
+        End If
+        Return Math.Acos(val)
+    End Function
+    Public Function atan(ByVal val As Double)
+        If messurmentMode = DEGREES Then
+            Return Math.Atan(DegreeToRadian(val))
+        End If
+        Return Math.Atan(val)
+    End Function
+
     Public Function abs(ByVal val As Decimal)
         Return Math.Abs(val)
     End Function
@@ -245,6 +329,9 @@ Public Module bGraphics
 
         AddHandler hostForm.Disposed, AddressOf Kill
         AddHandler hostForm.Paint, AddressOf reDraw
+        AddHandler hostForm.MouseDown, AddressOf mouseDownChecker
+        AddHandler hostForm.MouseUp, AddressOf mouseUpChecker
+
 
 
     End Sub
@@ -438,6 +525,12 @@ Public Module bGraphics
 
     End Sub
     Public Sub polygon(ByVal c As Color, ByVal points() As Point)
+    
+        For i = 0 To points.Length - 1
+            points(i).X += xOff
+            points(i).Y += yOff
+        Next
+
         GraphicsBuffer.DrawPolygon(New Pen(New SolidBrush(c)), points) 'test function
 
     End Sub
@@ -458,8 +551,10 @@ Public Module bGraphics
 
     End Sub
     Public Sub point(ByVal x As Integer, ByVal y As Integer, ByVal c As Color, Optional ByVal size As Integer = 7, Optional ByVal fromCenterPoint As Boolean = False)
+        translate(0.5, 0.5)
 
-        ellipseFill(x, y, size, size, c, , , fromCenterPoint)
+        ellipseFill(x, y, size, size, c, , size, fromCenterPoint, , , )
+
     End Sub
 
     Public Function randomInt(ByVal min As Integer, ByVal max As Integer, Optional ByVal canHaveZero As Boolean = True) As Integer
@@ -470,11 +565,11 @@ Public Module bGraphics
         Return n
 
     End Function
-    Public Sub origin(ByVal x As Double, ByVal y As Double)
+    Public Sub translate(ByVal x As Double, ByVal y As Double)
         xOff = xOff + x
         yOff = yOff + y
     End Sub
-    
+
 
     Public Function screenShot(ByVal sx As Integer, ByVal sy As Integer, ByVal dx As Integer, ByVal dy As Integer, ByVal w As Integer, ByVal h As Integer, Optional ByVal text As String = "", Optional ByVal tx As Integer = 0, Optional ByVal ty As Integer = 0) As Bitmap
 
@@ -518,12 +613,7 @@ Public Module bGraphics
         Dim bRush As New SolidBrush(Color.FromArgb(alpha, b))
         GraphicsBuffer.DrawString(s, New Font(fontName, fontSize, fontStyle), bRush, x, y)
     End Sub
-    Public Function polarToCar(ByVal radius As Decimal, ByVal theta As Double) As bVector
-        Dim x As Double = radius * cos(theta)
-        Dim y As Double = radius * sin(theta)
 
-        Return New bVector(x, y)
-    End Function
     Public Sub formSize(Optional ByVal x As Integer = -1, Optional ByVal y As Integer = -1)
         hostForm.Width = IIf(x > -1, x, hostForm.Width)
         hostForm.Height = IIf(y > -1, y, hostForm.Height)
@@ -605,5 +695,12 @@ Public Module bGraphics
         e.Graphics.DrawImage(ScrnBufferBmp, 0, 0)
         Run()
     End Sub
+    Private Sub mouseUpChecker(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
+        mouseIsClicked = False
+    End Sub
+    Private Sub mouseDownChecker(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
+        mouseIsClicked = True
+    End Sub
+
 
 End Module
