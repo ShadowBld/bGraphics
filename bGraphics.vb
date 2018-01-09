@@ -378,7 +378,7 @@ Public Module bGraphics
         Return mt
     End Function
 
-    Public Function rect(ByVal x As Integer, ByVal y As Integer, ByVal w As Integer, ByVal h As Integer, ByVal c As Color, Optional ByVal strokeWidth As Integer = 1, Optional ByVal fromCenterPoint As Boolean = False, Optional ByVal rotation As Integer = Nothing, Optional ByVal rotationMode As Integer = 0) As Rectangle
+    Public Function rect(ByVal x As Integer, ByVal y As Integer, ByVal w As Integer, ByVal h As Integer, ByVal c As Color, Optional ByVal a As Integer = 255, Optional ByVal strokeWidth As Integer = 1, Optional ByVal fromCenterPoint As Boolean = False, Optional ByVal rotation As Integer = Nothing, Optional ByVal rotationMode As Integer = 0) As Rectangle
 
         Dim rec As Rectangle
 
@@ -388,7 +388,7 @@ Public Module bGraphics
             rec = New Rectangle((x) + xOff, (y) + yOff, w, h)
         End If
 
-        Dim p As New Pen(New SolidBrush(c))
+        Dim p As New Pen(New SolidBrush(Color.FromArgb(a, c)))
         p.Width = strokeWidth
         If rotation <> Nothing Then
             GraphicsBuffer.Transform = m(rec, rotation, rotationMode)
@@ -404,7 +404,7 @@ Public Module bGraphics
         Return rec
     End Function
 
-    Public Function ellipse(ByVal x As Integer, ByVal y As Integer, ByVal w As Integer, ByVal h As Integer, ByVal c As Color, Optional ByVal strokeWidth As Integer = 1, Optional ByVal fromCenterPoint As Boolean = True, Optional ByVal rotation As Integer = Nothing, Optional ByVal rotationMode As Integer = 0) As Rectangle
+    Public Function ellipse(ByVal x As Integer, ByVal y As Integer, ByVal w As Integer, ByVal h As Integer, ByVal c As Color, Optional ByVal a As Integer = 255, Optional ByVal strokeWidth As Integer = 1, Optional ByVal fromCenterPoint As Boolean = True, Optional ByVal rotation As Integer = Nothing, Optional ByVal rotationMode As Integer = 0) As Rectangle
         Dim rec As Rectangle
 
         If fromCenterPoint Then
@@ -413,7 +413,7 @@ Public Module bGraphics
             rec = New Rectangle((x) + xOff, (y) + yOff, w, h)
         End If
 
-        Dim p As New Pen(New SolidBrush(c))
+        Dim p As New Pen(New SolidBrush(Color.FromArgb(a, c)))
         p.Width = strokeWidth
 
         If rotation <> Nothing Then
@@ -426,12 +426,12 @@ Public Module bGraphics
         End If
         Return rec
     End Function
-    Public Function rect(ByVal rec As Rectangle, ByVal c As Color, Optional ByVal strokeWidth As Integer = 1, Optional ByVal fromCenterPoint As Boolean = False, Optional ByVal rotation As Integer = Nothing, Optional ByVal rotationMode As Integer = 0)
+    Public Function rect(ByVal rec As Rectangle, ByVal c As Color, Optional ByVal a As Integer = 255, Optional ByVal strokeWidth As Integer = 1, Optional ByVal fromCenterPoint As Boolean = False, Optional ByVal rotation As Integer = Nothing, Optional ByVal rotationMode As Integer = 0)
 
-        Return rect(rec.X, rec.Y, rec.Width, rec.Height, c, strokeWidth, fromCenterPoint, rotation, rotationMode)
+        Return rect(rec.X, rec.Y, rec.Width, rec.Height, c, a, strokeWidth, fromCenterPoint, rotation, rotationMode)
     End Function
-    Public Function ellipse(ByVal rec As Rectangle, ByVal c As Color, Optional ByVal strokeWidth As Integer = 1, Optional ByVal fromCenterPoint As Boolean = True, Optional ByVal rotation As Integer = Nothing, Optional ByVal rotationMode As Integer = 0) As Rectangle
-        Return ellipse(rec.X, rec.Y, rec.Width, rec.Height, c, strokeWidth, fromCenterPoint, rotation, rotationMode)
+    Public Function ellipse(ByVal rec As Rectangle, ByVal c As Color, Optional ByVal a As Integer = 255, Optional ByVal strokeWidth As Integer = 1, Optional ByVal fromCenterPoint As Boolean = True, Optional ByVal rotation As Integer = Nothing, Optional ByVal rotationMode As Integer = 0) As Rectangle
+        Return ellipse(rec.X, rec.Y, rec.Width, rec.Height, c, a, strokeWidth, fromCenterPoint, rotation, rotationMode)
 
     End Function
     Public Function rectFill(ByVal x As Integer, ByVal y As Integer, ByVal w As Integer, ByVal h As Integer, ByVal c As Color,
