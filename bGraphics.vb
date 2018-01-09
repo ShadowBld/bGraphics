@@ -27,7 +27,7 @@ Public Module bGraphics
     Private r As New Random
     Private formRec As Rectangle
     Private mouseIsClicked As Boolean = False
-    Private messurmentMode As String = DEGREES
+    Private messurmentMode As String = RADIANIS
     Public Const PI As Integer = 180
     Public Const TWO_PI As Integer = 360
     Public Const HALF_PI As Integer = 90
